@@ -1,0 +1,112 @@
+<!--
+    This is a document you can use when you start building the page that will contain
+    one or more Fine Uploader UI instances.  A default template that can be customized
+    is located in the text/template script tag below.  This template enabled the thumbnail/preview
+    feature.
+
+    Please see http://docs.fineuploader.com/features/styling.html for information
+    on how to customize this default template.
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link href="static/fineuploader.min.css" rel="stylesheet">
+    <script src="static/fineuploader.4.4.0.min.js"></script>
+    <script type="text/template" id="qq-simple-thumbnails-template">
+  <div class="qq-uploader-selector qq-uploader">
+    <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+      <span>Drop files here to upload</span>
+    </div>
+    <div class="qq-upload-button-selector qq-upload-button">
+      <div>Upload a file</div>
+    </div>
+    <span class="qq-drop-processing-selector qq-drop-processing">
+      <span>Processing dropped files...</span>
+      <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+    </span>
+    <ul class="qq-upload-list-selector qq-upload-list">
+      <li>
+        <div class="qq-progress-bar-container-selector">
+          <div class="qq-progress-bar-selector qq-progress-bar"></div>
+        </div>
+        <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+        <img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale>
+        <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+        <span class="qq-upload-file-selector qq-upload-file"></span>
+        <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+        <span class="qq-upload-size-selector qq-upload-size"></span>
+        <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">Cancel</a>
+        <a class="qq-upload-retry-selector qq-upload-retry" href="#">Retry</a>
+        <a class="qq-upload-delete-selector qq-upload-delete" href="#">Delete</a>
+        <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+      </li>
+    </ul>
+  </div>
+</script>
+    <script>
+    function createUploader() {
+        var thumbnailuploader = new qq.FineUploader({
+          element: document.getElementById('thumbnail-fine-uploader'),
+          template: "qq-simple-thumbnails-template",
+          request: {
+            endpoint: 'server/handleUploads'
+          },
+          thumbnails: {
+              placeholders: {
+                waitingPath: "assets/waiting-generic.png",
+                notAvailablePath: "assets/not_available-generic.png"
+              }
+          },
+          validation: {
+              allowedExtensions: ['jpeg', 'jpg', 'gif', 'png']
+          }
+        });
+      }
+    
+      window.onload = createUploader;
+    </script>
+    
+
+    <title>Fine Uploader default UI with thumbnails</title>
+</head>
+<body>
+    <h3>Display Image Previews</h3>
+                    <p class="demo-description">In this demo, we're utilizing Fine Uploader 4's client-side image
+                        preview generation feature.  Note that client-side previews are only supported in modern browsers
+                        (not IE9 and older).  For more info, see the <a href="http://docs.fineuploader.com/features/thumbnails.html">thumbnail feature docs</a>.</p>
+                    <div id="thumbnail-fine-uploader" style="margin-bottom:20px;"></div>
+                    <p>This uploader is also restricted in</p>
+                    <ul>
+                        <li>allowed extensions (<code>jpeg</code>, <code>jpg</code>, <code>gif</code>, and <code>png</code>)</li>
+                    </ul>
+
+                    <p>This demo uses the <a href="https://github.com/Widen/fine-uploader/blob/master/client/html/templates/simple-thumbnails.html">default simple thumbnails template</a> bundled with Fine Uploader UI.
+                        For details on customizing templates, see the <a href="http://docs.fineuploader.com/features/styling.html">styling documentation</a>.</p>
+
+                    <div class="view-code">
+                        <a><i class="icon-eye-open"></i>View Code</a>
+                        <div class="source-view">
+                            <div class="code-example">
+                                <div class="code-tab activeTabTrigger" data-tab="jquery-tab-display-images">jQuery</div>
+                                <div class="code-tab" data-tab="no-dependencies-tab-display-images">No Dependencies</div>
+
+                                <pre id="jquery-tab-display-images" class="code-window active">
+                                    <code class="example" data-demo="jquery-display-thumbnails"></code>
+                                </pre>
+
+                                <pre id="no-dependencies-tab-display-images" class="code-window">
+                                    <code class="example xml" data-demo="display-thumbnails"></code>
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+</body>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,134 @@
+<!--
+    This is a document you can use when you start building the page that will contain
+    one or more Fine Uploader UI instances.  A default template that can be customized
+    is located in the text/template script tag below.
+
+    Please see http://docs.fineuploader.com/features/styling.html for information
+    on how to customize this default template.
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link href="static/fineuploader.css" rel="stylesheet">
+    <script src="static/fineuploader.4.4.0.min.js"></script>
+    <script type="text/template" id="qq-simple-thumbnails-template">
+        <div class="qq-uploader-selector qq-uploader">
+            <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
+                <div class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
+            </div>
+            <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                <span>Drop files here to upload</span>
+            </div>
+            <div class="qq-upload-button-selector qq-upload-button">
+                <div>上传图像文件</div>
+            </div>
+            <span class="qq-drop-processing-selector qq-drop-processing">
+                <span>Processing dropped files...</span>
+                <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+            </span>
+            <ul class="qq-upload-list-selector qq-upload-list">
+                <li>
+                    <div class="qq-progress-bar-container-selector">
+                        <div class="qq-progress-bar-selector qq-progress-bar"></div>
+                    </div>
+                    <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                    <img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale>
+                    <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+                    <span class="qq-upload-file-selector qq-upload-file"></span>
+                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                    <span class="qq-upload-size-selector qq-upload-size"></span>
+                    <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">Cancel</a>
+                    <a class="qq-upload-retry-selector qq-upload-retry" href="#">Retry</a>
+                    <a class="qq-upload-delete-selector qq-upload-delete" href="#">Delete</a>
+                    <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                </li>
+            </ul>
+        </div>
+    </script>
+    <script>
+        
+    function fmgetCode(){
+        var code = $("#lan_code").val()
+        return  code+".jpg"  //只能用jpg文件
+    
+    }
+    
+    function uploadinfo(code, filename) {
+        $.ajax({
+                    type: "POST",
+                    url: "/uploadinfo",
+                    data:{'code':code, 'filename':filename},
+                    dataType:'text',
+                    success:function(data){                        
+                       
+                        
+                    },
+                    error:function(){
+                        alert("错误：无法获得数据")
+                        
+                    }				
+                })
+    
+    }
+        
+        
+        
+    function createUploader() {
+        var thumbnailuploader = new qq.FineUploader({
+          element: document.getElementById('thumbnail-fine-uploader'),
+          template: "qq-simple-thumbnails-template",
+          request: {
+            endpoint: 'upload',
+            params:{"img":fmgetCode()}
+          },
+          thumbnails: {
+              placeholders: {
+                waitingPath: "static/placeholders/waiting-generic.png",
+                notAvailablePath: "static/placeholders/not_available-generic.png"
+              }
+          },
+          validation: {
+              allowedExtensions: ['jpg']  //只能用jpg文件
+          },
+          callbacks: {
+                onUpload: function(id, name) {
+                    var code = fmgetCode()
+                    //uploadinfo(code, name)
+                    
+                }
+            
+            }
+        });
+      }
+    
+      window.onload = createUploader;
+    </script>
+
+    <title>上传图像</title>
+</head>
+<body>
+<p><label for="password">编&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label><input type="text" id="lan_code"  size='50' value='{{code}}' readonly/></p>
+<p><label for="password">宽度(毫米):</label><input type="text" id="lan_width" value='{{width}}' readonly /></p>
+<p><label for="password">高度(毫米):</label><input type="text" id="lan_height" value='{{height}}' readonly /></p>
+<p><label for="password">内&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;容:</label><input type="text" id="addlan_content"   value='{{content}}' readonly /></p>
+<div id="thumbnail-fine-uploader" style="margin-bottom:20px;"><!--<div class="qq-uploader-selector qq-uploader">
+            <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone="" style="display: none;">
+                <span>Drop files here to upload</span>
+            </div>
+            <div class="qq-upload-button-selector qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;">
+                <div>Upload a file</div>
+            <input qq-button-id="e98b89a3-11cd-4af7-90b8-286874feec2c" multiple="" type="file" name="qqfile" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;"></div>
+                <span class="qq-drop-processing-selector qq-drop-processing qq-hide">
+                    <span>Processing dropped files...</span>
+                    <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+                </span>
+            <ul class="qq-upload-list-selector qq-upload-list"></ul>
+        </div>--></div>
+    <label>说明：图像必须为jpg格式.上传成功后图像文件会自动按编号重命名</label>
+</body>
+</html>
+
+
+
